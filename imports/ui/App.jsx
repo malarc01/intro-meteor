@@ -66,7 +66,7 @@ export const App = () => {
        onDeleteClick={deleteTask}
         />) }
       </ul>
-      <TaskForm/>
+      <TaskForm user={user}/>
     </div>
   );
 };
