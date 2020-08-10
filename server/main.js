@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import Tasks from '/imports/api/tasks';
+import {Tasks} from '/imports/api/tasks';
 
 function insertTask({ title }) {
   Tasks.insert({ title, createdAt: new Date()});

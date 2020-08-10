@@ -1,11 +1,11 @@
 import React from 'react';
 import classnames from 'classnames';
 
-export const Task = ({ task, onCheckboxClick,onDeleteClick }) => {
-
+export const Task = ({ task, onCheckboxClick, onDeleteClick, onTogglePrivateClick }) => {
     const classes = classnames('task', {
-        'checked': Boolean(task.isChecked)
-      });
+      'checked': Boolean(task.isChecked)
+    });
+  
     
 
 
@@ -15,6 +15,8 @@ export const Task = ({ task, onCheckboxClick,onDeleteClick }) => {
 
    
         <button onClick={()=>onDeleteClick(task)}>&times;</button>
+        <button onClick={ () => onTogglePrivateClick(task) }>{ task.isPrivate ? 'Private' : 'Public' }</button>
+
         <span>{ task.text }</span>
 
       <input
