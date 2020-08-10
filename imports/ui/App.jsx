@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
+import _ from 'lodash';
 import { Task } from './Task';
 import Tasks from '/imports/api/tasks';
 import { TaskForm } from './TaskForm';
@@ -14,21 +15,36 @@ const toggleChecked = ({ _id, isChecked }) => {
 
 const deleteTask = ({_id})=> Tasks.remove(_id);
 
-
 export const App = () => {
+  const filter = {};
 
   const [hideCompleted, setHideCompleted] = useState(false);
 
+  if (hideCompleted) {
+    _.set(filter,'checked',false)
+  }
 
-
-  const tasks = useTracker(() => Tasks.find({}, { sort: { createdAt: -1 } }).fetch());
-
-
- 
- 
-  return (
+  const { tasks, incompleteTasksCount } = useTracker(() => ({
+    tasks: Tasks.find(filter, { sort: { createdAt: -1 } }).fetch(),
+    incompleteTasksCount: Tasks.find({ checked: { $ne: true }}).count()
+  }));
+  
+  
+ return (
     <div className="simple-todos-react">
-      <h1>Welcome to Meteor!</h1>
+    <h1>Todo List ({ incompleteTasksCount })</h1>
+
+      <div className="filters">
+        <label>
+          <input
+              type="checkbox"
+              readOnly
+              checked={ Boolean(hideCompleted) }
+              onClick={() => setHideCompleted(!hideCompleted)}
+          />
+          Hide Completed
+        </label>
+      </div>
 
 
  
